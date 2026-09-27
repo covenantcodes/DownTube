@@ -7,7 +7,12 @@
       "Bash(python3 -m http.server 8901)",
       "Bash(echo \"PID:$!\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8901/)",
-      "Bash(pkill -f \"http.server 8901\")"
+      "Bash(pkill -f \"http.server 8901\")",
+      "Bash(python3 -m http.server 8902)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/style.css)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/app.js)",
+      "Bash(pkill -f \"http.server 8902\")"
     ]
   }
 }
