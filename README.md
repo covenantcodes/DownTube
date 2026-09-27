@@ -62,6 +62,10 @@ YouTube blocks requests from datacenter IPs (Render, Railway, most cloud hosts) 
 
 Neither is set by default, so the app works cookie-free until you hit this error.
 
+## "Failed to extract any player response"
+
+YouTube changes its player internals often enough that yt-dlp ships near-daily fixes. Since `requirements.txt` doesn't pin a version, the container checks for a newer `yt-dlp` and upgrades it on every start ([Dockerfile](Dockerfile)) — so a redeploy (even with no code changes) is usually enough to pick up the fix. If the error persists right after a restart, yt-dlp's maintainers likely haven't shipped a fix yet; check [their GitHub issues](https://github.com/yt-dlp/yt-dlp/issues) for the specific extractor error.
+
 ## Deploying publicly
 
 If you host this for others to use, put it behind authentication (it's an open download proxy otherwise) and expect to keep `yt-dlp` updated, since YouTube changes frequently break extraction. A Dockerfile is included for deploying to any container platform (Render, Railway, Fly.io, a VPS, etc.).

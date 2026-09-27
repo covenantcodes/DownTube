@@ -8,9 +8,21 @@ const QUALITY_LABELS = {
   audio: "Audio only (MP3)",
 };
 
+const GENERIC_ERROR = "Something went wrong. That link might be private, restricted, or invalid.";
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 function setStatus(msg, type = "") {
-  $("status").textContent = msg;
-  $("status").className = type;
+  const el = $("status");
+  el.className = type;
+
+  if (type === "err") {
+    el.innerHTML = `${GENERIC_ERROR}<details class="status-details"><summary>Details</summary><code>${escapeHtml(msg)}</code></details>`;
+  } else {
+    el.textContent = msg;
+  }
 }
 
 function formatDuration(seconds) {

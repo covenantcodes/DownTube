@@ -12,7 +12,13 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/index.html)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/style.css)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8902/app.js)",
-      "Bash(pkill -f \"http.server 8902\")"
+      "Bash(pkill -f \"http.server 8902\")",
+      "Bash(venv/bin/python3 -m pip --version)",
+      "Bash(venv/bin/python3 -m pip install --upgrade yt-dlp)",
+      "Bash(venv/bin/python3 -m pip index versions yt-dlp)",
+      "Bash(venv/bin/python3 -m yt_dlp --no-playlist -q --print title \"https://www.youtube.com/watch?v=atXYBl03nmA\")",
+      "Bash(node -e ' *)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }
