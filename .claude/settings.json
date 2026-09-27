@@ -3,7 +3,11 @@
     "allow": [
       "Read(//opt/homebrew/bin/**)",
       "Read(//usr/local/bin/**)",
-      "Bash(/opt/homebrew/bin/python3 -m venv venv)"
+      "Bash(/opt/homebrew/bin/python3 -m venv venv)",
+      "Bash(python3 -m http.server 8901)",
+      "Bash(echo \"PID:$!\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8901/)",
+      "Bash(pkill -f \"http.server 8901\")"
     ]
   }
 }
