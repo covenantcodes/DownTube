@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(/opt/homebrew/bin/python3 -m venv venv)"
+    ]
+  }
+}
