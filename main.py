@@ -14,8 +14,16 @@ from starlette.background import BackgroundTask
 
 app = FastAPI(title="DownTube")
 
-COOKIES_FILE = os.environ.get("YTDLP_COOKIES_FILE")
 COOKIES_FROM_BROWSER = os.environ.get("YTDLP_COOKIES_FROM_BROWSER")
+
+# yt-dlp rewrites the cookies file after each run to persist refreshed session
+# cookies, so a read-only mount (e.g. Render Secret Files) has to be copied to
+# a writable path first.
+COOKIES_FILE = os.environ.get("YTDLP_COOKIES_FILE")
+if COOKIES_FILE:
+    writable_cookies_file = Path(tempfile.gettempdir()) / "ytdlp_cookies.txt"
+    shutil.copyfile(COOKIES_FILE, writable_cookies_file)
+    COOKIES_FILE = str(writable_cookies_file)
 
 
 def cookie_opts() -> dict:
