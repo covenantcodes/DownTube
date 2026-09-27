@@ -53,6 +53,15 @@ docker run -p 8000:8000 downtube
 
 `quality`: `best`, `1080`, `720`, `480`, `audio`
 
+## "Sign in to confirm you're not a bot"
+
+YouTube blocks requests from datacenter IPs (Render, Railway, most cloud hosts) unless they carry cookies from a real, logged-in browser session. If `/api/info` or `/api/download` fails with this error, set one of these env vars:
+
+- **`YTDLP_COOKIES_FILE`** — path to a `cookies.txt` (Netscape format) exported from a logged-in YouTube session in your browser, using an extension like [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc). On Render, upload it as a **Secret File** (e.g. at `/etc/secrets/cookies.txt`) and point the env var at that path. Use a throwaway/alt Google account, not your main one — the cookies grant download access as that account and can expire or get flagged.
+- **`YTDLP_COOKIES_FROM_BROWSER`** — for local dev only (there's no installed browser in a container): set it to a browser name like `chrome`, `firefox`, or `chrome:ProfileName` to pull cookies straight from your local browser profile.
+
+Neither is set by default, so the app works cookie-free until you hit this error.
+
 ## Deploying publicly
 
 If you host this for others to use, put it behind authentication (it's an open download proxy otherwise) and expect to keep `yt-dlp` updated, since YouTube changes frequently break extraction. A Dockerfile is included for deploying to any container platform (Render, Railway, Fly.io, a VPS, etc.).

@@ -1,3 +1,4 @@
+import os
 import shutil
 import tempfile
 import threading
@@ -12,6 +13,24 @@ from pydantic import BaseModel
 from starlette.background import BackgroundTask
 
 app = FastAPI(title="DownTube")
+
+COOKIES_FILE = os.environ.get("YTDLP_COOKIES_FILE")
+COOKIES_FROM_BROWSER = os.environ.get("YTDLP_COOKIES_FROM_BROWSER")
+
+
+def cookie_opts() -> dict:
+    """yt-dlp options that authenticate as a real browser.
+
+    YouTube blocks datacenter IPs (Render, Railway, etc.) with
+    "Sign in to confirm you're not a bot" unless requests carry cookies
+    from a logged-in session.
+    """
+    if COOKIES_FILE:
+        return {"cookiefile": COOKIES_FILE}
+    if COOKIES_FROM_BROWSER:
+        browser, _, profile = COOKIES_FROM_BROWSER.partition(":")
+        return {"cookiesfrombrowser": (browser, profile or None, None, None)}
+    return {}
 
 JOBS: dict[str, dict] = {}
 QUALITIES = {
@@ -35,7 +54,7 @@ class DownloadRequest(BaseModel):
 @app.post("/api/info")
 def info(req: InfoRequest):
     try:
-        with yt_dlp.YoutubeDL({"quiet": True, "noplaylist": True}) as ydl:
+        with yt_dlp.YoutubeDL({"quiet": True, "noplaylist": True, **cookie_opts()}) as ydl:
             data = ydl.extract_info(req.url, download=False)
     except yt_dlp.utils.DownloadError as e:
         raise HTTPException(400, str(e).removeprefix("ERROR: "))
@@ -69,6 +88,7 @@ def _run_job(job_id: str, url: str, quality: str):
         "noplaylist": True,
         "quiet": True,
         "progress_hooks": [hook],
+        **cookie_opts(),
     }
     if quality == "audio":
         opts["postprocessors"] = [{"key": "FFmpegExtractAudio", "preferredcodec": "mp3"}]
