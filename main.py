@@ -30,19 +30,25 @@ if COOKIES_FILE:
         COOKIES_FILE = None
 
 
+PROXY = os.environ.get("YTDLP_PROXY")
+
+
 def cookie_opts() -> dict:
     """yt-dlp options that authenticate as a real browser.
 
     YouTube blocks datacenter IPs (Render, Railway, etc.) with
     "Sign in to confirm you're not a bot" unless requests carry cookies
-    from a logged-in session.
+    from a logged-in session and route through a non-datacenter IP.
     """
+    opts = {}
     if COOKIES_FILE:
-        return {"cookiefile": COOKIES_FILE}
-    if COOKIES_FROM_BROWSER:
+        opts["cookiefile"] = COOKIES_FILE
+    elif COOKIES_FROM_BROWSER:
         browser, _, profile = COOKIES_FROM_BROWSER.partition(":")
-        return {"cookiesfrombrowser": (browser, profile or None, None, None)}
-    return {}
+        opts["cookiesfrombrowser"] = (browser, profile or None, None, None)
+    if PROXY:
+        opts["proxy"] = PROXY
+    return opts
 
 JOBS: dict[str, dict] = {}
 QUALITIES = {

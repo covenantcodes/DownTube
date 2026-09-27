@@ -118,13 +118,8 @@ function storedTheme() {
   try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; }
 }
 
-function prefersDark() {
-  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-
 function isDark() {
-  const stored = storedTheme();
-  return stored ? stored === "dark" : prefersDark();
+  return storedTheme() === "dark";
 }
 
 function syncThemeToggle() {

@@ -19,18 +19,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ink: #f5f3ea;
-    --paper: #121214;
-    --card: #1c1c21;
-    --dot: rgba(245, 243, 234, .10);
-    --deco: rgba(245, 243, 234, .12);
-    --muted: rgba(245, 243, 234, .55);
-    color-scheme: dark;
-  }
-}
-
 :root[data-theme="dark"] {
   --ink: #f5f3ea;
   --paper: #121214;
