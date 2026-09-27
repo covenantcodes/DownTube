@@ -58,6 +58,8 @@ def info(req: InfoRequest):
             data = ydl.extract_info(req.url, download=False)
     except yt_dlp.utils.DownloadError as e:
         raise HTTPException(400, str(e).removeprefix("ERROR: "))
+    except Exception as e:
+        raise HTTPException(500, f"{type(e).__name__}: {e}")
     heights = sorted({f["height"] for f in data.get("formats", []) if f.get("height")}, reverse=True)
     return {
         "title": data.get("title"),
