@@ -18,7 +18,20 @@
       "Bash(venv/bin/python3 -m pip index versions yt-dlp)",
       "Bash(venv/bin/python3 -m yt_dlp --no-playlist -q --print title \"https://www.youtube.com/watch?v=atXYBl03nmA\")",
       "Bash(node -e ' *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(venv/bin/python3 -m yt_dlp --no-playlist -v --print title \"https://www.youtube.com/watch?v=atXYBl03nmA\")",
+      "Bash(deno --version)",
+      "Bash(docker build *)",
+      "Bash(which podman *)",
+      "Read(//Applications/**)",
+      "Bash(venv/bin/python3 -m pip show fastapi uvicorn yt-dlp)",
+      "Bash(venv/bin/python3 -m uvicorn main:app --port 8000)",
+      "Bash(curl -s -o /tmp/downtube_response.html -w \"HTTP %{http_code}\\\\n\" http://localhost:8000/)",
+      "Bash(lsof -nP -iTCP:8000 -sTCP:LISTEN)",
+      "Bash(ps -p 88205 -o pid,ppid,command)",
+      "Bash(kill 88205 89327)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8000/)",
+      "Bash(curl -s -o /dev/null -w \"api/info HTTP %{http_code}\\\\n\" -X POST http://localhost:8000/api/info -H \"Content-Type: application/json\" -d '{\"url\":\"https://www.youtube.com/watch?v=atXYBl03nmA\"}')"
     ]
   }
 }
