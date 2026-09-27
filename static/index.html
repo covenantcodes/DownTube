@@ -8,10 +8,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  try {
+    var t = localStorage.getItem("downtube-theme");
+    if (t) document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+</script>
 </head>
 <body>
 <span class="deco tl">+</span>
 <span class="deco br">+</span>
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch to dark theme">☾</button>
 
 <div class="wrap">
   <div class="badge">100%<br>Free</div>

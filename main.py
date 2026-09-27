@@ -21,9 +21,13 @@ COOKIES_FROM_BROWSER = os.environ.get("YTDLP_COOKIES_FROM_BROWSER")
 # a writable path first.
 COOKIES_FILE = os.environ.get("YTDLP_COOKIES_FILE")
 if COOKIES_FILE:
-    writable_cookies_file = Path(tempfile.gettempdir()) / "ytdlp_cookies.txt"
-    shutil.copyfile(COOKIES_FILE, writable_cookies_file)
-    COOKIES_FILE = str(writable_cookies_file)
+    if os.path.exists(COOKIES_FILE):
+        writable_cookies_file = Path(tempfile.gettempdir()) / "ytdlp_cookies.txt"
+        shutil.copyfile(COOKIES_FILE, writable_cookies_file)
+        COOKIES_FILE = str(writable_cookies_file)
+    else:
+        print(f"WARNING: YTDLP_COOKIES_FILE={COOKIES_FILE!r} does not exist, ignoring")
+        COOKIES_FILE = None
 
 
 def cookie_opts() -> dict:

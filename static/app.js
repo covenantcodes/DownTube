@@ -112,8 +112,39 @@ async function startDownload() {
   }
 }
 
+const THEME_KEY = "downtube-theme";
+
+function storedTheme() {
+  try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+}
+
+function prefersDark() {
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+function isDark() {
+  const stored = storedTheme();
+  return stored ? stored === "dark" : prefersDark();
+}
+
+function syncThemeToggle() {
+  const dark = isDark();
+  $("themeToggle").textContent = dark ? "☀" : "☾";
+  $("themeToggle").setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+
+function toggleTheme() {
+  const next = isDark() ? "light" : "dark";
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  document.documentElement.setAttribute("data-theme", next);
+  syncThemeToggle();
+}
+
 $("fetchBtn").onclick = fetchVideoInfo;
 $("dlBtn").onclick = startDownload;
+$("themeToggle").onclick = toggleTheme;
 $("url").addEventListener("keydown", e => {
   if (e.key === "Enter") $("fetchBtn").click();
 });
+
+syncThemeToggle();
