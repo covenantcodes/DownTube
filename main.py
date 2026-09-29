@@ -31,6 +31,10 @@ if COOKIES_FILE:
 
 
 PROXY = os.environ.get("YTDLP_PROXY")
+# Some YouTube "player clients" (tv, web_creator, ios, ...) aren't gated by
+# the same bot-check as the default web client. Free to try, not guaranteed
+# to beat an outright datacenter-IP ban. Comma-separated, e.g. "tv".
+PLAYER_CLIENT = os.environ.get("YTDLP_PLAYER_CLIENT")
 
 
 def cookie_opts() -> dict:
@@ -48,6 +52,8 @@ def cookie_opts() -> dict:
         opts["cookiesfrombrowser"] = (browser, profile or None, None, None)
     if PROXY:
         opts["proxy"] = PROXY
+    if PLAYER_CLIENT:
+        opts["extractor_args"] = {"youtube": {"player_client": PLAYER_CLIENT.split(",")}}
     return opts
 
 JOBS: dict[str, dict] = {}
