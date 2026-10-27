@@ -1,0 +1,21 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Secrets / local config
+.env
+.env.*
+cookies.txt
+*.cookies
+
+# Downloads / temp output
+downloads/
+*.part
+*.ytdl
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
